@@ -1,0 +1,74 @@
+openapi: 3.0.3
+info:
+  title: Onboarding API
+  version: "1.2"
+servers:
+  - url: http://STD22033.fr
+
+paths:
+  /students:
+    get:
+      summary: See the students
+      operationId: SeeStudents
+      responses:
+        "200":
+          description: Results
+          content:
+            application/json:
+              example:
+                - id: 1
+                - name: Emily
+                - birthdate: "2000-02-14"
+                - gender: F
+
+                - id: 2
+                - name: Nathan
+                - birthdate: "2002-05-25"
+                - gender: M
+
+                - id: 3
+                - name: Laura
+                - birthdate: "2004-10-28"
+                - gender: F
+
+    post:
+      summary: Make an insertion
+      operationId: addStudent
+      requestBody:
+        description: To create a new student
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+                birthdate:
+                  format: date
+                gender:
+                  format: char
+              example:
+                id: 4
+                name: Yrouane
+                birthdate: "2001-01-18"
+                gender: M
+
+      responses:
+        "201":
+          description: New student created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  birthdate:
+                    format: date
+                  gender:
+                    format: char
