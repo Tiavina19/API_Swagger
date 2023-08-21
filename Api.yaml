@@ -3,11 +3,13 @@ info:
   title: Onboarding API
   version: "1.2"
 servers:
-  - url: http://STD22033.fr
+  - url: http://STD22033.com
 
 paths:
   /students:
     get:
+      tags:
+        - Students
       summary: See the students
       operationId: SeeStudents
       responses:
@@ -32,6 +34,8 @@ paths:
                 - gender: F
 
     post:
+      tags:
+        - Students
       summary: Make an insertion
       operationId: addStudent
       requestBody:
@@ -49,7 +53,7 @@ paths:
                 birthdate:
                   format: date
                 gender:
-                  format: char
+                  type: string
               example:
                 id: 4
                 name: Yrouane
@@ -71,4 +75,186 @@ paths:
                   birthdate:
                     format: date
                   gender:
-                    format: char
+                    type: string
+
+  /students/{studentId}:
+    put:
+      tags:
+        - Students
+      summary: Update a student
+      operationId: updateStudent
+      parameters:
+        - name: studentId
+          in: path
+          description: ID of the student to update
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: Updated student data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                birthdate:
+                  format: date
+                gender:
+                  type: string
+              example:
+                name: Farra
+                birthdate: "2001-01-18"
+                gender: F
+
+      responses:
+        "200":
+          description: Student updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  birthdate:
+                    format: date
+                  gender:
+                    type: string
+
+    delete:
+      tags:
+        - Students
+      summary: Delete a student
+      operationId: deleteStudent
+      parameters:
+        - name: studentId
+          in: path
+          description: ID of the student to delete
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Student deleted
+
+  /teachers:
+    get:
+      tags:
+        - Teachers
+      summary: Get list of teachers
+      operationId: GetTeachers
+      responses:
+        "200":
+          description: List of teachers
+          content:
+            application/json:
+              example:
+                - id: 1
+                  name: Sandrine
+                  courses:
+                    - courseName: MGT1
+                      duration: 2 hours 30 minutes
+
+                - id: 2
+                  name: Tsilavina
+                  courses:
+                    - courseName: TP1
+                      duration: 2 hours
+
+    post:
+      tags:
+        - Teachers
+      summary: Add a new teacher
+      operationId: AddTeacher
+      requestBody:
+        description: Create a new teacher
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+                courses:
+                  type: string
+              example:
+                id: 3
+                name: Toky
+                courses:
+                  - courseName: PROG2
+                    duration: 2 hours
+
+      responses:
+        "201":
+          description: New teacher added
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+
+    put:
+      summary: Update a teacher
+      operationId: UpdateTeacher
+      tags:
+        - Teachers
+      parameters:
+        - name: teacherId
+          in: path
+          description: ID of the teacher to update
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: Updated teacher data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              example:
+                name: Marie
+
+      responses:
+        "200":
+          description: Teacher updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+
+    delete:
+      summary: Delete a teacher
+      operationId: DeleteTeacher
+      tags:
+        - Teachers
+      parameters:
+        - name: teacherId
+          in: path
+          description: ID of the teacher to delete
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Teacher deleted
